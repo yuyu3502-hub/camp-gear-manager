@@ -178,7 +178,7 @@ function loadState() {
   try {
     return { ...structuredClone(sampleData), ...JSON.parse(saved) };
   } catch (error) {
-    loadWarning = "保存データを読み込めなかったため、サンプル表示に戻しました。バックアップがあれば復元してください。";
+    loadWarning = "保存データを読み込めなかったため、サンプル表示に戻しました。バックアップファイルがあれば「バックアップから復元」で戻してください。";
     console.error(error);
     return structuredClone(sampleData);
   }
@@ -194,7 +194,7 @@ function saveState() {
     return true;
   } catch (error) {
     console.error(error);
-    alert("保存できませんでした。ブラウザの保存容量が不足している可能性があります。バックアップを作成して、写真や不要な項目を整理してください。");
+    alert("保存できませんでした。ブラウザの保存容量が不足している可能性があります。「バックアップを保存」でファイルを残してから、写真や不要な項目を整理してください。");
     return false;
   }
 }
@@ -382,13 +382,13 @@ function normalizeState() {
 
   state.containers = state.containers.map((container) => ({
     id: container.id || uid("c"),
-    name: container.name || "未名称コンテナ",
+    name: container.name || "未名称の収納箱",
     location: container.location || "",
     color: sanitizeColor(container.color),
   }));
 
   if (!state.containers.length) {
-    state.containers.push({ id: uid("c"), name: "未分類コンテナ", location: "", color: "#2f6f56" });
+    state.containers.push({ id: uid("c"), name: "未分類の収納箱", location: "", color: "#2f6f56" });
   }
 
   state.items = state.items.map((item) => ({
@@ -447,7 +447,7 @@ function renderChecklist() {
   const items = filteredItems(state.items.filter((item) => preset.itemIds.includes(item.id)));
 
   if (!items.length) {
-    elements.checklist.innerHTML = `<p class="empty-state">この条件に合う持ち物はありません。</p>`;
+    elements.checklist.innerHTML = `<p class="empty-state">見つかりませんでした。検索条件を変えるか、アイテムを追加してください。</p>`;
     return;
   }
 
@@ -461,7 +461,7 @@ function renderChecklist() {
           ${photoMarkup(item, "check-photo")}
           <span>
             <span class="item-title">${escapeHtml(item.name)} × ${item.quantity}</span>
-            <span class="item-meta">${escapeHtml(item.category)} / ${escapeHtml(container?.name || "未分類")}</span>
+            <span class="item-meta">${escapeHtml(item.category)} / ${escapeHtml(container?.name || "未分類の収納箱")}</span>
           </span>
           <span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span>
         </label>
@@ -476,7 +476,7 @@ function renderLoadout() {
   elements.loadoutCount.textContent = `${items.length}点`;
 
   if (!items.length) {
-    elements.loadoutContainers.innerHTML = `<p class="empty-state">プリセットにアイテムを追加すると表示されます。</p>`;
+    elements.loadoutContainers.innerHTML = `<p class="empty-state">「キャンプ別の持ち出しセット」で持っていくアイテムを選ぶと表示されます。</p>`;
     return;
   }
 
@@ -538,7 +538,7 @@ function renderContainers() {
               `,
             )
             .join("")
-        : `<tr><td colspan="5" class="empty-state">このコンテナに表示できるアイテムはありません。</td></tr>`;
+        : `<tr><td colspan="5" class="empty-state">この収納箱に表示できるアイテムはありません。</td></tr>`;
 
       return `
         <article class="container-card" style="border-left-color:${sanitizeColor(container.color)}">
@@ -548,8 +548,8 @@ function renderContainers() {
               <p>${escapeHtml(container.location || "置き場所未設定")} / ${containerItems.length}点</p>
             </div>
             <div class="card-actions">
-              <button class="mini-button" type="button" title="コンテナ編集" aria-label="${escapeHtml(container.name)}を編集" data-edit-container="${escapeHtml(container.id)}">✎</button>
-              <button class="mini-button" type="button" title="コンテナ削除" aria-label="${escapeHtml(container.name)}を削除" data-delete-container="${escapeHtml(container.id)}">×</button>
+              <button class="mini-button" type="button" title="収納箱を編集" aria-label="${escapeHtml(container.name)}を編集" data-edit-container="${escapeHtml(container.id)}">✎</button>
+              <button class="mini-button" type="button" title="収納箱を削除" aria-label="${escapeHtml(container.name)}を削除" data-delete-container="${escapeHtml(container.id)}">×</button>
             </div>
           </div>
           <table class="item-table">
@@ -604,7 +604,7 @@ function renderPresetEditor() {
               ${photoMarkup(item, "picker-photo")}
               <span>
                 ${escapeHtml(item.name)}
-                <small>${escapeHtml(item.category)} / ${escapeHtml(container?.name || "未分類")}</small>
+                <small>${escapeHtml(item.category)} / ${escapeHtml(container?.name || "未分類の収納箱")}</small>
               </span>
             </label>
           `;
@@ -654,7 +654,7 @@ function bindEvents() {
   elements.searchInput.addEventListener("input", () => render({ persist: false }));
 
   elements.seedButton.addEventListener("click", async () => {
-    if (!confirm("サンプルデータで全初期化します。現在の登録内容は上書きされます。先にバックアップを作成してください。")) return;
+    if (!confirm("全データをサンプルに戻します。現在の登録内容は上書きされます。先に「バックアップを保存」を使ってください。")) return;
     if (!confirm("本当に全初期化しますか？この操作は元に戻せません。")) return;
     state = structuredClone(sampleData);
     await clearPhotos();
@@ -694,7 +694,7 @@ function bindEvents() {
         throw new Error("バックアップファイルの形式が正しくありません。");
       }
 
-      if (!confirm("このバックアップで現在のデータを置き換えますか？")) return;
+      if (!confirm("このバックアップファイルで現在のデータを置き換えますか？")) return;
       state = nextState;
       await clearPhotos();
       if (Array.isArray(backup.photos)) {
@@ -706,7 +706,7 @@ function bindEvents() {
       render();
     } catch (error) {
       console.error(error);
-      alert(error.message || "バックアップを復元できませんでした。");
+      alert(error.message || "バックアップファイルから復元できませんでした。");
     } finally {
       elements.importInput.value = "";
     }
@@ -852,7 +852,7 @@ function bindEvents() {
       openContainerDialog(getContainer(editContainerId));
     }
 
-    if (deleteContainerId && confirm("このコンテナを削除しますか？中のアイテムは別コンテナへ移します。")) {
+    if (deleteContainerId && confirm("この収納箱を削除しますか？中のアイテムは別の収納箱へ移します。")) {
       deleteContainer(deleteContainerId);
       render();
     }
@@ -902,7 +902,7 @@ function bindEvents() {
   });
 
   elements.deletePresetButton.addEventListener("click", () => {
-    if (state.presets.length === 1 || !confirm("このプリセットを削除しますか？")) return;
+    if (state.presets.length === 1 || !confirm("この持ち出しセットを削除しますか？")) return;
     state.presets = state.presets.filter((preset) => preset.id !== state.selectedPresetId);
     state.selectedPresetId = state.presets[0].id;
     state.activePresetId = state.presets[0].id;

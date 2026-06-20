@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>キャンプ用品コンテナ管理</title>
+    <title>キャンプ用品収納箱管理</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -20,7 +20,7 @@
           </div>
           <div>
             <h1>キャンプ用品管理</h1>
-            <p>コンテナと持ち出しセット</p>
+            <p>収納箱と持ち出しセット</p>
           </div>
         </div>
 
@@ -31,11 +31,11 @@
           </button>
           <button class="nav-tab" data-view="containers">
             <span aria-hidden="true">▣</span>
-            コンテナ
+            収納箱
           </button>
           <button class="nav-tab" data-view="presets">
             <span aria-hidden="true">✓</span>
-            プリセット
+            持ち出しセット
           </button>
         </nav>
 
@@ -46,7 +46,7 @@
           </div>
           <div>
             <span id="statContainers">0</span>
-            <small>コンテナ</small>
+            <small>収納箱</small>
           </div>
           <div>
             <span id="statPresets">0</span>
@@ -61,25 +61,23 @@
             <span aria-hidden="true">⌕</span>
             <input id="searchInput" type="search" placeholder="アイテム名・カテゴリ・メモで検索" />
           </div>
-          <button class="secondary-button topbar-button" id="exportButton" type="button">バックアップ</button>
+          <button class="secondary-button topbar-button" id="exportButton" type="button">バックアップを保存</button>
           <label class="secondary-button topbar-button import-button">
-            復元
+            バックアップから復元
             <input id="importInput" type="file" accept="application/json,.json" />
           </label>
-          <button class="icon-button" id="seedButton" type="button" title="サンプルで全初期化" aria-label="サンプルで全初期化">
-            ↻
-          </button>
+          <button class="secondary-button topbar-button danger-lite-button" id="seedButton" type="button">サンプルに戻す</button>
         </header>
 
         <section class="view active" id="dashboardView" aria-labelledby="dashboardTitle">
           <section class="guide-panel" aria-labelledby="guideTitle">
             <div>
               <p class="eyebrow">はじめて使うとき</p>
-              <h2 id="guideTitle">まずは箱を作って、用品を入れて、キャンプ別セットを選ぶだけ。</h2>
+              <h2 id="guideTitle">まずは収納箱を作って、用品を入れて、持ち出しセットを選ぶだけ。</h2>
             </div>
             <ol class="guide-steps">
               <li>
-                <strong>コンテナを登録</strong>
+                <strong>収納箱（コンテナ）を登録</strong>
                 <span>家にある収納箱や車載箱の名前と置き場所を作ります。</span>
               </li>
               <li>
@@ -87,7 +85,7 @@
                 <span>写真、数量、状態、メモを入れて「どこにあるか」を見える化します。</span>
               </li>
               <li>
-                <strong>プリセットを作成</strong>
+                <strong>持ち出しセットを作成</strong>
                 <span>ファミリー1泊、デイキャンプなど、行き先ごとの持ち物セットを保存します。</span>
               </li>
               <li>
@@ -100,16 +98,16 @@
           <div class="section-head">
             <div>
               <h2 id="dashboardTitle">次のキャンプ準備</h2>
-              <p>キャンプの種類を選ぶと、必要な持ち物と入っているコンテナがまとまります。</p>
+              <p>キャンプの種類を選ぶと、必要な持ち物と入っている収納箱がまとまります。</p>
             </div>
-            <select id="activePresetSelect" aria-label="準備するプリセット"></select>
+            <select id="activePresetSelect" aria-label="準備する持ち出しセット"></select>
           </div>
 
           <div class="dashboard-grid">
             <section class="panel checklist-panel">
               <div class="panel-head">
                 <h3>持ち物チェック</h3>
-                <button class="text-button" id="clearChecksButton" type="button">チェック解除</button>
+                <button class="text-button" id="clearChecksButton" type="button">すべてのチェックを外す</button>
               </div>
               <div id="checklist" class="checklist"></div>
             </section>
@@ -127,14 +125,14 @@
         <section class="view" id="containersView" aria-labelledby="containersTitle">
           <div class="section-head">
             <div>
-              <h2 id="containersTitle">コンテナ別アイテム</h2>
+              <h2 id="containersTitle">収納箱別アイテム</h2>
               <p>どの箱に何が入っているかを登録します。</p>
             </div>
-            <button class="primary-button" id="addContainerButton" type="button">コンテナ追加</button>
+            <button class="primary-button" id="addContainerButton" type="button">収納箱を追加</button>
           </div>
 
           <div class="hint-strip">
-            <span>1. 右上の「コンテナ追加」で収納箱を作る</span>
+            <span>1. 右上の「収納箱を追加」で箱を作る</span>
             <span>2. 左のフォームでアイテムを保存する</span>
             <span>3. 一覧の鉛筆で後から編集できる</span>
           </div>
@@ -163,7 +161,7 @@
                   </select>
                 </label>
                 <label>
-                  コンテナ
+                  収納箱
                   <select id="itemContainer"></select>
                 </label>
                 <label>
@@ -195,7 +193,7 @@
                 </label>
                 <div class="form-actions">
                   <button class="primary-button" type="submit">保存</button>
-                  <button class="secondary-button" id="cancelItemEdit" type="button">取消</button>
+                  <button class="secondary-button" id="cancelItemEdit" type="button">入力をクリア</button>
                 </div>
               </form>
             </section>
@@ -207,10 +205,10 @@
         <section class="view" id="presetsView" aria-labelledby="presetsTitle">
           <div class="section-head">
             <div>
-              <h2 id="presetsTitle">キャンプ別プリセット</h2>
+              <h2 id="presetsTitle">キャンプ別の持ち出しセット</h2>
               <p>ファミリー、ソロ、デイキャンプなど、持っていくセットを作れます。</p>
             </div>
-            <button class="primary-button" id="addPresetButton" type="button">プリセット追加</button>
+            <button class="primary-button" id="addPresetButton" type="button">持ち出しセットを追加</button>
           </div>
 
           <div class="hint-strip">
@@ -220,10 +218,10 @@
           </div>
 
           <div class="preset-layout">
-            <aside class="preset-list" id="presetList" aria-label="プリセット一覧"></aside>
+            <aside class="preset-list" id="presetList" aria-label="持ち出しセット一覧"></aside>
             <section class="panel preset-editor">
               <div class="panel-head">
-                <h3 id="presetEditorTitle">プリセット編集</h3>
+                <h3 id="presetEditorTitle">持ち出しセット編集</h3>
                 <button class="danger-button" id="deletePresetButton" type="button">削除</button>
               </div>
               <form id="presetForm">
@@ -244,7 +242,7 @@
                   <span id="presetItemCount" class="badge">0点</span>
                 </div>
                 <div id="presetItemPicker" class="item-picker"></div>
-                <button class="primary-button wide" type="submit">プリセットを保存</button>
+                <button class="primary-button wide" type="submit">この持ち出しセットを保存</button>
               </form>
             </section>
           </div>
@@ -253,7 +251,7 @@
         <section class="help-section" aria-labelledby="helpTitle">
           <div>
             <h2 id="helpTitle">保存と共有について</h2>
-            <p>入力したデータは、このブラウザの中に保存されます。別のスマホやPCで使うときは、右上の「バックアップ」でJSONを保存し、別端末で「復元」を使ってください。</p>
+            <p>データはこの端末のこのブラウザだけに保存されます。家族のスマホや別のPCには自動で共有されないため、使い回すときは「バックアップを保存」でバックアップファイルを保存し、別端末で「バックアップから復元」を使ってください。</p>
           </div>
           <a class="help-link" href="https://github.com/yuyu3502-hub/camp-gear-manager" target="_blank" rel="noreferrer">GitHubを見る</a>
         </section>
@@ -262,7 +260,7 @@
 
     <dialog id="containerDialog">
       <form method="dialog" id="containerForm">
-        <h3>コンテナ</h3>
+        <h3>収納箱（コンテナ）</h3>
         <input type="hidden" id="containerId" />
         <label>
           名前
