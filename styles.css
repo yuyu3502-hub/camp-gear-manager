@@ -417,6 +417,9 @@ form {
   padding: 0 14px;
   border: 1px solid transparent;
   font-weight: 800;
+  line-height: 1.25;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .primary-button {
@@ -844,6 +847,7 @@ dialog h3 {
 
   .topbar,
   .section-head,
+  .panel-head,
   .container-card-header,
   .help-section {
     align-items: stretch;
@@ -851,7 +855,9 @@ dialog h3 {
   }
 
   .topbar-button,
-  .icon-button {
+  .icon-button,
+  .panel-head button,
+  .section-head button {
     width: 100%;
   }
 
@@ -876,9 +882,20 @@ dialog h3 {
     text-align: center;
   }
 
+  .nav-tabs {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .nav-tab {
     justify-content: center;
+    min-height: 46px;
     padding: 0 8px;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .nav-tab[data-view="dashboard"] {
+    grid-column: 1 / -1;
   }
 
   .nav-tab span {
