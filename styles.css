@@ -209,6 +209,82 @@ button {
   display: block;
 }
 
+.guide-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(360px, 1.15fr);
+  gap: 22px;
+  align-items: center;
+  margin-bottom: 22px;
+  padding: 22px;
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-left: 7px solid var(--gold);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #7a5d0f;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.guide-panel h2 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.25;
+}
+
+.guide-steps {
+  counter-reset: guide;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-steps li {
+  counter-increment: guide;
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 10px;
+  min-height: 96px;
+  padding: 12px;
+  background: #f7f1e3;
+  border: 1px solid #e3d6b7;
+  border-radius: 8px;
+}
+
+.guide-steps li::before {
+  content: counter(guide);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: white;
+  border-radius: 999px;
+  font-weight: 900;
+}
+
+.guide-steps strong,
+.guide-steps span {
+  display: block;
+}
+
+.guide-steps strong {
+  margin-bottom: 4px;
+}
+
+.guide-steps span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .section-head {
   display: flex;
   justify-content: space-between;
@@ -262,6 +338,13 @@ button {
 
 .panel {
   padding: 18px;
+}
+
+.panel-note {
+  margin: 8px 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .panel-head {
@@ -360,6 +443,26 @@ form {
 
 .wide {
   width: 100%;
+}
+
+.hint-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.hint-strip span {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  background: #eef5f0;
+  color: #28543f;
+  border: 1px solid #cde1d2;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .checklist {
@@ -666,11 +769,53 @@ dialog h3 {
   margin: 0 0 12px;
 }
 
+.help-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  margin-top: 22px;
+  padding: 18px;
+  background: rgba(255, 253, 248, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.help-section h2,
+.help-section p {
+  margin: 0;
+}
+
+.help-section h2 {
+  font-size: 18px;
+}
+
+.help-section p {
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.help-link {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
 @media (max-width: 980px) {
   .app-shell,
   .dashboard-grid,
   .management-grid,
-  .preset-layout {
+  .preset-layout,
+  .guide-panel {
     grid-template-columns: 1fr;
   }
 
@@ -686,6 +831,10 @@ dialog h3 {
   .quick-stats {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .guide-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {
@@ -695,7 +844,8 @@ dialog h3 {
 
   .topbar,
   .section-head,
-  .container-card-header {
+  .container-card-header,
+  .help-section {
     align-items: stretch;
     flex-direction: column;
   }
@@ -710,8 +860,20 @@ dialog h3 {
   }
 
   .quick-stats,
-  .two-col {
+  .two-col,
+  .guide-steps {
     grid-template-columns: 1fr;
+  }
+
+  .guide-panel {
+    padding: 16px;
+  }
+
+  .hint-strip span {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
   }
 
   .nav-tab {
