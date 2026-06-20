@@ -268,11 +268,16 @@ button {
   color: white;
   border-radius: 999px;
   font-weight: 900;
+  grid-row: 1 / span 2;
 }
 
 .guide-steps strong,
 .guide-steps span {
   display: block;
+  grid-column: 2;
+  min-width: 0;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .guide-steps strong {
@@ -873,6 +878,11 @@ dialog h3 {
 
   .guide-panel {
     padding: 16px;
+  }
+
+  .guide-steps li {
+    grid-template-columns: 44px 1fr;
+    min-height: auto;
   }
 
   .hint-strip span {
