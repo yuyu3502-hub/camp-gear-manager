@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>キャンプ用品収納箱管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260620-2" />
+    <link rel="stylesheet" href="./styles.css?v=20260620-3" />
   </head>
   <body>
     <div class="app-shell">
@@ -42,7 +42,7 @@
         <div class="quick-stats">
           <div>
             <span id="statItems">0</span>
-            <small>登録アイテム</small>
+            <small>登録した用品</small>
           </div>
           <div>
             <span id="statContainers">0</span>
@@ -59,21 +59,32 @@
         <header class="topbar">
           <div class="search-box">
             <span aria-hidden="true">⌕</span>
-            <input id="searchInput" type="search" placeholder="アイテム名・カテゴリ・メモで検索" />
+            <input id="searchInput" type="search" placeholder="用品名・カテゴリ・メモで検索" />
           </div>
-          <button class="secondary-button topbar-button" id="exportButton" type="button">バックアップを保存</button>
-          <label class="secondary-button topbar-button import-button">
-            バックアップから復元
-            <input id="importInput" type="file" accept="application/json,.json" />
-          </label>
-          <button class="secondary-button topbar-button danger-lite-button" id="seedButton" type="button">サンプルに戻す</button>
         </header>
+
+        <details class="data-tools">
+          <summary>データ管理</summary>
+          <p>バックアップから復元すると、今のデータはバックアップファイルの内容に置き換わります。</p>
+          <div class="data-tool-actions">
+            <button class="secondary-button topbar-button" id="exportButton" type="button">バックアップを保存</button>
+            <label class="secondary-button topbar-button import-button">
+              バックアップから復元
+              <input id="importInput" type="file" accept="application/json,.json" />
+            </label>
+            <button class="secondary-button topbar-button danger-lite-button" id="seedButton" type="button">全データをサンプルに戻す</button>
+          </div>
+        </details>
 
         <section class="view active" id="dashboardView" aria-labelledby="dashboardTitle">
           <section class="guide-panel" aria-labelledby="guideTitle">
             <div>
               <p class="eyebrow">はじめて使うとき</p>
-              <h2 id="guideTitle">まずは収納箱を作って、用品を入れて、持ち出しセットを選ぶだけ。</h2>
+              <h2 id="guideTitle">まずは収納箱を作って、用品を入れて、持ち出しセットを作ります。</h2>
+              <div class="guide-actions">
+                <button class="primary-button" type="button" data-go-view="containers">まず収納箱を追加する</button>
+                <button class="secondary-button" type="button" data-go-view="presets">持ち出しセットを作る</button>
+              </div>
             </div>
             <ol class="guide-steps">
               <li>
@@ -81,7 +92,7 @@
                 <span>家にある収納箱や車載箱の名前と置き場所を作ります。</span>
               </li>
               <li>
-                <strong>アイテムを追加</strong>
+                <strong>用品を追加</strong>
                 <span>写真、数量、状態、メモを入れて「どこにあるか」を見える化します。</span>
               </li>
               <li>
@@ -125,7 +136,7 @@
         <section class="view" id="containersView" aria-labelledby="containersTitle">
           <div class="section-head">
             <div>
-              <h2 id="containersTitle">収納箱別アイテム</h2>
+              <h2 id="containersTitle">収納箱別の用品</h2>
               <p>どの箱に何が入っているかを登録します。</p>
             </div>
             <button class="primary-button" id="addContainerButton" type="button">収納箱を追加</button>
@@ -133,18 +144,18 @@
 
           <div class="hint-strip">
             <span>1. 右上の「収納箱を追加」で箱を作る</span>
-            <span>2. 左のフォームでアイテムを保存する</span>
+            <span>2. 左のフォームで用品を保存する</span>
             <span>3. 一覧の鉛筆で後から編集できる</span>
           </div>
 
           <div class="management-grid">
             <section class="panel form-panel">
-              <h3 id="itemFormTitle">アイテム追加</h3>
+              <h3 id="itemFormTitle">用品を追加</h3>
               <p class="panel-note">写真を入れておくと、家族でも探しやすくなります。</p>
               <form id="itemForm">
                 <input type="hidden" id="itemId" />
                 <label>
-                  アイテム名
+                  用品名
                   <input id="itemName" required placeholder="例: LEDランタン" />
                 </label>
                 <label>
@@ -214,7 +225,7 @@
           <div class="hint-strip">
             <span>1. 左でセットを選ぶ</span>
             <span>2. 用途やメモを書く</span>
-            <span>3. 持っていくアイテムにチェックして保存する</span>
+            <span>3. 持っていく用品にチェックして保存する</span>
           </div>
 
           <div class="preset-layout">
@@ -238,7 +249,7 @@
                   <textarea id="presetNote" rows="2"></textarea>
                 </label>
                 <div class="item-picker-head">
-                  <strong>含めるアイテム</strong>
+                  <strong>持っていく用品</strong>
                   <span id="presetItemCount" class="badge">0点</span>
                 </div>
                 <div id="presetItemPicker" class="item-picker"></div>
@@ -253,7 +264,7 @@
             <h2 id="helpTitle">保存と共有について</h2>
             <p>データはこの端末のこのブラウザだけに保存されます。家族のスマホや別のPCには自動で共有されないため、使い回すときは「バックアップを保存」でバックアップファイルを保存し、別端末で「バックアップから復元」を使ってください。</p>
           </div>
-          <a class="help-link" href="https://github.com/yuyu3502-hub/camp-gear-manager" target="_blank" rel="noreferrer">GitHubを見る</a>
+          <a class="help-link" href="https://github.com/yuyu3502-hub/camp-gear-manager" target="_blank" rel="noreferrer">開発情報を見る</a>
         </section>
       </main>
     </div>

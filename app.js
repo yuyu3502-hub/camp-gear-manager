@@ -393,7 +393,7 @@ function normalizeState() {
 
   state.items = state.items.map((item) => ({
     id: item.id || uid("i"),
-    name: item.name || "未名称アイテム",
+    name: item.name || "未名称の用品",
     category: item.category || "その他",
     containerId: state.containers.some((container) => container.id === item.containerId)
       ? item.containerId
@@ -447,7 +447,7 @@ function renderChecklist() {
   const items = filteredItems(state.items.filter((item) => preset.itemIds.includes(item.id)));
 
   if (!items.length) {
-    elements.checklist.innerHTML = `<p class="empty-state">見つかりませんでした。検索条件を変えるか、アイテムを追加してください。</p>`;
+    elements.checklist.innerHTML = `<p class="empty-state">見つかりませんでした。検索条件を変えるか、「収納箱」で用品を追加してください。</p>`;
     return;
   }
 
@@ -476,7 +476,7 @@ function renderLoadout() {
   elements.loadoutCount.textContent = `${items.length}点`;
 
   if (!items.length) {
-    elements.loadoutContainers.innerHTML = `<p class="empty-state">「キャンプ別の持ち出しセット」で持っていくアイテムを選ぶと表示されます。</p>`;
+    elements.loadoutContainers.innerHTML = `<p class="empty-state">「キャンプ別の持ち出しセット」で持っていく用品を選ぶと表示されます。</p>`;
     return;
   }
 
@@ -518,7 +518,7 @@ function renderContainers() {
             .map(
               (item) => `
                 <tr>
-                  <td data-label="アイテム">
+                  <td data-label="用品">
                     <div class="item-cell">
                       ${photoMarkup(item)}
                       <span>
@@ -538,7 +538,7 @@ function renderContainers() {
               `,
             )
             .join("")
-        : `<tr><td colspan="5" class="empty-state">この収納箱に表示できるアイテムはありません。</td></tr>`;
+        : `<tr><td colspan="5" class="empty-state">この収納箱にはまだ用品がありません。左のフォームで用品を追加してください。</td></tr>`;
 
       return `
         <article class="container-card" style="border-left-color:${sanitizeColor(container.color)}">
@@ -555,7 +555,7 @@ function renderContainers() {
           <table class="item-table">
             <thead>
               <tr>
-                <th>アイテム</th>
+                <th>用品</th>
                 <th>カテゴリ</th>
                 <th>数量</th>
                 <th>状態</th>
@@ -610,7 +610,7 @@ function renderPresetEditor() {
           `;
         })
         .join("")
-    : `<p class="empty-state">登録アイテムがありません。</p>`;
+    : `<p class="empty-state">まだ用品が登録されていません。先に「収納箱」で用品を追加してください。</p>`;
 }
 
 function resetItemForm() {
@@ -620,7 +620,7 @@ function resetItemForm() {
   draftItemPhotoData = "";
   updatePhotoPreview();
   elements.itemQuantity.value = 1;
-  elements.itemFormTitle.textContent = "アイテム追加";
+  elements.itemFormTitle.textContent = "用品を追加";
   if (state.containers[0]) elements.itemContainer.value = state.containers[0].id;
 }
 
@@ -641,14 +641,23 @@ function deleteContainer(containerId) {
   state.containers = state.containers.filter((container) => container.id !== containerId);
 }
 
+function activateView(viewName) {
+  elements.navTabs.forEach((navTab) => navTab.classList.toggle("active", navTab.dataset.view === viewName));
+  elements.views.forEach((view) => view.classList.toggle("active", view.id === `${viewName}View`));
+}
+
 function bindEvents() {
   elements.navTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      elements.navTabs.forEach((navTab) => navTab.classList.remove("active"));
-      elements.views.forEach((view) => view.classList.remove("active"));
-      tab.classList.add("active");
-      $(`#${tab.dataset.view}View`).classList.add("active");
+      activateView(tab.dataset.view);
     });
+  });
+
+  document.addEventListener("click", (event) => {
+    const viewName = event.target.closest("[data-go-view]")?.dataset.goView;
+    if (!viewName) return;
+    activateView(viewName);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
   elements.searchInput.addEventListener("input", () => render({ persist: false }));
@@ -832,11 +841,11 @@ function bindEvents() {
       draftItemPhotoId = item.photoId || "";
       draftItemPhotoData = "";
       updatePhotoPreview();
-      elements.itemFormTitle.textContent = "アイテム編集";
+      elements.itemFormTitle.textContent = "用品を編集";
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    if (deleteItemId && confirm("このアイテムを削除しますか？")) {
+    if (deleteItemId && confirm("この用品を削除しますか？")) {
       const item = state.items.find((current) => current.id === deleteItemId);
       await deletePhoto(item?.photoId);
       state.items = state.items.filter((item) => item.id !== deleteItemId);
@@ -852,7 +861,7 @@ function bindEvents() {
       openContainerDialog(getContainer(editContainerId));
     }
 
-    if (deleteContainerId && confirm("この収納箱を削除しますか？中のアイテムは別の収納箱へ移します。")) {
+    if (deleteContainerId && confirm("この収納箱を削除しますか？中の用品は別の収納箱へ移します。")) {
       deleteContainer(deleteContainerId);
       render();
     }
