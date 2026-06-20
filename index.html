@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>キャンプ用品コンテナ管理</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" role="img">
+              <path d="M8 37h32L26 10c-.7-1.3-2.5-1.3-3.2 0L8 37Z" fill="#f5c85b" />
+              <path d="M24 12 12 37h24L24 12Z" fill="#3e6b54" />
+              <path d="M24 15v22" stroke="#f8f4e9" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M6 39h36" stroke="#23342c" stroke-width="3" stroke-linecap="round" />
+            </svg>
+          </div>
+          <div>
+            <h1>キャンプ用品管理</h1>
+            <p>コンテナと持ち出しセット</p>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" aria-label="表示切替">
+          <button class="nav-tab active" data-view="dashboard">
+            <span aria-hidden="true">⌂</span>
+            全体
+          </button>
+          <button class="nav-tab" data-view="containers">
+            <span aria-hidden="true">▣</span>
+            コンテナ
+          </button>
+          <button class="nav-tab" data-view="presets">
+            <span aria-hidden="true">✓</span>
+            プリセット
+          </button>
+        </nav>
+
+        <div class="quick-stats">
+          <div>
+            <span id="statItems">0</span>
+            <small>登録アイテム</small>
+          </div>
+          <div>
+            <span id="statContainers">0</span>
+            <small>コンテナ</small>
+          </div>
+          <div>
+            <span id="statPresets">0</span>
+            <small>セット</small>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="アイテム名・カテゴリ・メモで検索" />
+          </div>
+          <button class="secondary-button topbar-button" id="exportButton" type="button">バックアップ</button>
+          <label class="secondary-button topbar-button import-button">
+            復元
+            <input id="importInput" type="file" accept="application/json,.json" />
+          </label>
+          <button class="icon-button" id="seedButton" type="button" title="サンプルで全初期化" aria-label="サンプルで全初期化">
+            ↻
+          </button>
+        </header>
+
+        <section class="view active" id="dashboardView" aria-labelledby="dashboardTitle">
+          <div class="section-head">
+            <div>
+              <h2 id="dashboardTitle">次のキャンプ準備</h2>
+              <p>キャンプの種類を選ぶと、必要な持ち物と入っているコンテナがまとまります。</p>
+            </div>
+            <select id="activePresetSelect" aria-label="準備するプリセット"></select>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel checklist-panel">
+              <div class="panel-head">
+                <h3>持ち物チェック</h3>
+                <button class="text-button" id="clearChecksButton" type="button">チェック解除</button>
+              </div>
+              <div id="checklist" class="checklist"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h3>積み込み先</h3>
+                <span id="loadoutCount" class="badge">0点</span>
+              </div>
+              <div id="loadoutContainers" class="loadout"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="containersView" aria-labelledby="containersTitle">
+          <div class="section-head">
+            <div>
+              <h2 id="containersTitle">コンテナ別アイテム</h2>
+              <p>どの箱に何が入っているかを登録します。</p>
+            </div>
+            <button class="primary-button" id="addContainerButton" type="button">コンテナ追加</button>
+          </div>
+
+          <div class="management-grid">
+            <section class="panel form-panel">
+              <h3 id="itemFormTitle">アイテム追加</h3>
+              <form id="itemForm">
+                <input type="hidden" id="itemId" />
+                <label>
+                  アイテム名
+                  <input id="itemName" required placeholder="例: LEDランタン" />
+                </label>
+                <label>
+                  カテゴリ
+                  <select id="itemCategory">
+                    <option>照明</option>
+                    <option>調理</option>
+                    <option>寝具</option>
+                    <option>設営</option>
+                    <option>焚き火</option>
+                    <option>電源</option>
+                    <option>衛生</option>
+                    <option>その他</option>
+                  </select>
+                </label>
+                <label>
+                  コンテナ
+                  <select id="itemContainer"></select>
+                </label>
+                <label>
+                  写真
+                  <input id="itemPhoto" type="file" accept="image/*" />
+                </label>
+                <div class="photo-preview" id="itemPhotoPreview">
+                  <div class="photo-placeholder">写真なし</div>
+                </div>
+                <button class="secondary-button" id="removeItemPhoto" type="button">写真を外す</button>
+                <div class="two-col">
+                  <label>
+                    数量
+                    <input id="itemQuantity" type="number" min="1" value="1" />
+                  </label>
+                  <label>
+                    状態
+                    <select id="itemStatus">
+                      <option>使用可</option>
+                      <option>補充必要</option>
+                      <option>修理必要</option>
+                      <option>車載中</option>
+                    </select>
+                  </label>
+                </div>
+                <label>
+                  メモ
+                  <textarea id="itemNote" rows="3" placeholder="電池、ガス缶、消耗品の残量など"></textarea>
+                </label>
+                <div class="form-actions">
+                  <button class="primary-button" type="submit">保存</button>
+                  <button class="secondary-button" id="cancelItemEdit" type="button">取消</button>
+                </div>
+              </form>
+            </section>
+
+            <div id="containerList" class="container-list"></div>
+          </div>
+        </section>
+
+        <section class="view" id="presetsView" aria-labelledby="presetsTitle">
+          <div class="section-head">
+            <div>
+              <h2 id="presetsTitle">キャンプ別プリセット</h2>
+              <p>ファミリー、ソロ、デイキャンプなど、持っていくセットを作れます。</p>
+            </div>
+            <button class="primary-button" id="addPresetButton" type="button">プリセット追加</button>
+          </div>
+
+          <div class="preset-layout">
+            <aside class="preset-list" id="presetList" aria-label="プリセット一覧"></aside>
+            <section class="panel preset-editor">
+              <div class="panel-head">
+                <h3 id="presetEditorTitle">プリセット編集</h3>
+                <button class="danger-button" id="deletePresetButton" type="button">削除</button>
+              </div>
+              <form id="presetForm">
+                <label>
+                  セット名
+                  <input id="presetName" required />
+                </label>
+                <label>
+                  用途
+                  <input id="presetTripType" placeholder="例: 1泊ファミリー / デイキャンプ" />
+                </label>
+                <label>
+                  メモ
+                  <textarea id="presetNote" rows="2"></textarea>
+                </label>
+                <div class="item-picker-head">
+                  <strong>含めるアイテム</strong>
+                  <span id="presetItemCount" class="badge">0点</span>
+                </div>
+                <div id="presetItemPicker" class="item-picker"></div>
+                <button class="primary-button wide" type="submit">プリセットを保存</button>
+              </form>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="containerDialog">
+      <form method="dialog" id="containerForm">
+        <h3>コンテナ</h3>
+        <input type="hidden" id="containerId" />
+        <label>
+          名前
+          <input id="containerName" required placeholder="例: 2軍ギア箱" />
+        </label>
+        <label>
+          置き場所
+          <input id="containerLocation" placeholder="例: 玄関収納 / 車庫" />
+        </label>
+        <label>
+          色
+          <input id="containerColor" type="color" value="#3e6b54" />
+        </label>
+        <div class="form-actions">
+          <button class="primary-button" value="save">保存</button>
+          <button class="secondary-button" id="closeContainerDialog" type="button">閉じる</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
