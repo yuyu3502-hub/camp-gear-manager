@@ -249,7 +249,10 @@ button {
 .guide-steps li {
   counter-increment: guide;
   display: grid;
-  grid-template-columns: 36px 1fr;
+  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-areas:
+    "number title"
+    "number body";
   gap: 10px;
   min-height: 96px;
   padding: 12px;
@@ -260,24 +263,32 @@ button {
 
 .guide-steps li::before {
   content: counter(guide);
-  width: 36px;
-  height: 36px;
+  grid-area: number;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   background: var(--accent);
   color: white;
   border-radius: 999px;
   font-weight: 900;
-  grid-row: 1 / span 2;
 }
 
 .guide-steps strong,
 .guide-steps span {
   display: block;
-  grid-column: 2;
   min-width: 0;
-  word-break: keep-all;
-  overflow-wrap: normal;
+  writing-mode: horizontal-tb;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+.guide-steps strong {
+  grid-area: title;
+}
+
+.guide-steps span {
+  grid-area: body;
 }
 
 .guide-steps strong {
@@ -881,7 +892,7 @@ dialog h3 {
   }
 
   .guide-steps li {
-    grid-template-columns: 44px 1fr;
+    grid-template-columns: 52px minmax(0, 1fr);
     min-height: auto;
   }
 
