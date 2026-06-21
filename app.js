@@ -6,9 +6,9 @@ const HEX_COLOR = /^#[0-9a-fA-F]{6}$/;
 
 const sampleData = {
   containers: [
-    { id: "c-kitchen", name: "調理用品棚", location: "トランクルーム入口から右、上から2段目", color: "#bd5635" },
-    { id: "c-light", name: "照明・電源エリア", location: "奥の壁側、充電用品の近く", color: "#426d8f" },
-    { id: "c-shelter", name: "大型ギア区画", location: "左奥の床置きスペース", color: "#2f6f56" },
+    { id: "c-kitchen", name: "記入例: 調理用品棚", location: "例: トランクルーム入口から右、上から2段目", color: "#bd5635" },
+    { id: "c-light", name: "記入例: 照明・電源エリア", location: "例: 奥の壁側、充電用品の近く", color: "#426d8f" },
+    { id: "c-shelter", name: "記入例: 大型ギア区画", location: "例: 左奥の床置きスペース", color: "#2f6f56" },
   ],
   items: [
     {
