@@ -80,3 +80,11 @@ http://<MacのLAN IP>:8788/
 
 公開ページ:
 https://yuyu3502-hub.github.io/camp-gear-manager/
+
+## 変更後の確認
+
+次回以降の作業で確認漏れや手戻りを減らすため、軽い検証スクリプトを用意しています。
+
+```bash
+./scripts/verify.sh
+```
