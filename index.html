@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>キャンプ用品収納箱管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260620-3" />
+    <title>キャンプ用品保管場所管理</title>
+    <link rel="stylesheet" href="./styles.css?v=20260621-1" />
   </head>
   <body>
     <div class="app-shell">
@@ -20,7 +20,7 @@
           </div>
           <div>
             <h1>キャンプ用品管理</h1>
-            <p>収納箱と持ち出しセット</p>
+            <p>保管場所と持ち出しセット</p>
           </div>
         </div>
 
@@ -31,7 +31,7 @@
           </button>
           <button class="nav-tab" data-view="containers">
             <span aria-hidden="true">▣</span>
-            収納箱
+            保管場所
           </button>
           <button class="nav-tab" data-view="presets">
             <span aria-hidden="true">✓</span>
@@ -46,7 +46,7 @@
           </div>
           <div>
             <span id="statContainers">0</span>
-            <small>収納箱</small>
+            <small>保管場所</small>
           </div>
           <div>
             <span id="statPresets">0</span>
@@ -80,16 +80,16 @@
           <section class="guide-panel" aria-labelledby="guideTitle">
             <div>
               <p class="eyebrow">はじめて使うとき</p>
-              <h2 id="guideTitle">まずは収納箱を作って、用品を入れて、持ち出しセットを作ります。</h2>
+              <h2 id="guideTitle">まずは保管場所を登録して、用品を置いた場所と持ち出しセットを作ります。</h2>
               <div class="guide-actions">
-                <button class="primary-button" type="button" data-go-view="containers">まず収納箱を追加する</button>
+                <button class="primary-button" type="button" data-go-view="containers">まず保管場所を追加する</button>
                 <button class="secondary-button" type="button" data-go-view="presets">持ち出しセットを作る</button>
               </div>
             </div>
             <ol class="guide-steps">
               <li>
-                <strong>収納箱（コンテナ）を登録</strong>
-                <span>家にある収納箱や車載箱の名前と置き場所を作ります。</span>
+                <strong>保管場所を登録</strong>
+                <span>トランクルーム内の部屋、棚、区画などを登録します。</span>
               </li>
               <li>
                 <strong>用品を追加</strong>
@@ -101,7 +101,7 @@
               </li>
               <li>
                 <strong>出発前にチェック</strong>
-                <span>この画面でセットを選び、積み込み先を見ながらチェックします。</span>
+                <span>この画面でセットを選び、保管場所を見ながらチェックします。</span>
               </li>
             </ol>
           </section>
@@ -109,7 +109,7 @@
           <div class="section-head">
             <div>
               <h2 id="dashboardTitle">次のキャンプ準備</h2>
-              <p>キャンプの種類を選ぶと、必要な持ち物と入っている収納箱がまとまります。</p>
+              <p>キャンプの種類を選ぶと、必要な持ち物と保管場所がまとまります。</p>
             </div>
             <select id="activePresetSelect" aria-label="準備する持ち出しセット"></select>
           </div>
@@ -125,7 +125,7 @@
 
             <section class="panel">
               <div class="panel-head">
-                <h3>積み込み先</h3>
+                <h3>取りに行く場所</h3>
                 <span id="loadoutCount" class="badge">0点</span>
               </div>
               <div id="loadoutContainers" class="loadout"></div>
@@ -136,14 +136,14 @@
         <section class="view" id="containersView" aria-labelledby="containersTitle">
           <div class="section-head">
             <div>
-              <h2 id="containersTitle">収納箱別の用品</h2>
-              <p>どの箱に何が入っているかを登録します。</p>
+              <h2 id="containersTitle">保管場所別の用品</h2>
+              <p>トランクルームのどの場所に何があるかを登録します。</p>
             </div>
-            <button class="primary-button" id="addContainerButton" type="button">収納箱を追加</button>
+            <button class="primary-button" id="addContainerButton" type="button">保管場所を追加</button>
           </div>
 
           <div class="hint-strip">
-            <span>1. 右上の「収納箱を追加」で箱を作る</span>
+            <span>1. 「保管場所を追加」で場所を作る</span>
             <span>2. 左のフォームで用品を保存する</span>
             <span>3. 一覧の鉛筆で後から編集できる</span>
           </div>
@@ -172,7 +172,7 @@
                   </select>
                 </label>
                 <label>
-                  収納箱
+                  保管場所
                   <select id="itemContainer"></select>
                 </label>
                 <label>
@@ -271,15 +271,15 @@
 
     <dialog id="containerDialog">
       <form method="dialog" id="containerForm">
-        <h3>収納箱（コンテナ）</h3>
+        <h3>保管場所</h3>
         <input type="hidden" id="containerId" />
         <label>
-          名前
-          <input id="containerName" required placeholder="例: 2軍ギア箱" />
+          場所の名前
+          <input id="containerName" required placeholder="例: トランクルーム右奥の棚" />
         </label>
         <label>
-          置き場所
-          <input id="containerLocation" placeholder="例: 玄関収納 / 車庫" />
+          場所のメモ
+          <input id="containerLocation" placeholder="例: 入口から右、上から2段目" />
         </label>
         <label>
           色

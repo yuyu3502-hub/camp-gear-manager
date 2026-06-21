@@ -6,9 +6,9 @@ const HEX_COLOR = /^#[0-9a-fA-F]{6}$/;
 
 const sampleData = {
   containers: [
-    { id: "c-kitchen", name: "キッチン箱", location: "車庫 棚上", color: "#bd5635" },
-    { id: "c-light", name: "照明・電源箱", location: "玄関収納", color: "#426d8f" },
-    { id: "c-shelter", name: "設営道具箱", location: "車庫 下段", color: "#2f6f56" },
+    { id: "c-kitchen", name: "調理用品棚", location: "トランクルーム入口から右、上から2段目", color: "#bd5635" },
+    { id: "c-light", name: "照明・電源エリア", location: "奥の壁側、充電用品の近く", color: "#426d8f" },
+    { id: "c-shelter", name: "大型ギア区画", location: "左奥の床置きスペース", color: "#2f6f56" },
   ],
   items: [
     {
@@ -382,13 +382,13 @@ function normalizeState() {
 
   state.containers = state.containers.map((container) => ({
     id: container.id || uid("c"),
-    name: container.name || "未名称の収納箱",
+    name: container.name || "未名称の保管場所",
     location: container.location || "",
     color: sanitizeColor(container.color),
   }));
 
   if (!state.containers.length) {
-    state.containers.push({ id: uid("c"), name: "未分類の収納箱", location: "", color: "#2f6f56" });
+    state.containers.push({ id: uid("c"), name: "未分類の保管場所", location: "", color: "#2f6f56" });
   }
 
   state.items = state.items.map((item) => ({
@@ -447,7 +447,7 @@ function renderChecklist() {
   const items = filteredItems(state.items.filter((item) => preset.itemIds.includes(item.id)));
 
   if (!items.length) {
-    elements.checklist.innerHTML = `<p class="empty-state">見つかりませんでした。検索条件を変えるか、「収納箱」で用品を追加してください。</p>`;
+    elements.checklist.innerHTML = `<p class="empty-state">見つかりませんでした。検索条件を変えるか、「保管場所」で用品を追加してください。</p>`;
     return;
   }
 
@@ -461,7 +461,7 @@ function renderChecklist() {
           ${photoMarkup(item, "check-photo")}
           <span>
             <span class="item-title">${escapeHtml(item.name)} × ${item.quantity}</span>
-            <span class="item-meta">${escapeHtml(item.category)} / ${escapeHtml(container?.name || "未分類の収納箱")}</span>
+            <span class="item-meta">${escapeHtml(item.category)} / ${escapeHtml(container?.name || "未分類の保管場所")}</span>
           </span>
           <span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span>
         </label>
@@ -538,18 +538,18 @@ function renderContainers() {
               `,
             )
             .join("")
-        : `<tr><td colspan="5" class="empty-state">この収納箱にはまだ用品がありません。左のフォームで用品を追加してください。</td></tr>`;
+        : `<tr><td colspan="5" class="empty-state">この保管場所にはまだ用品がありません。左のフォームで用品を追加してください。</td></tr>`;
 
       return `
         <article class="container-card" style="border-left-color:${sanitizeColor(container.color)}">
           <div class="container-card-header">
             <div>
               <h3>${escapeHtml(container.name)}</h3>
-              <p>${escapeHtml(container.location || "置き場所未設定")} / ${containerItems.length}点</p>
+              <p>${escapeHtml(container.location || "場所のメモ未設定")} / ${containerItems.length}点</p>
             </div>
             <div class="card-actions">
-              <button class="mini-button" type="button" title="収納箱を編集" aria-label="${escapeHtml(container.name)}を編集" data-edit-container="${escapeHtml(container.id)}">✎</button>
-              <button class="mini-button" type="button" title="収納箱を削除" aria-label="${escapeHtml(container.name)}を削除" data-delete-container="${escapeHtml(container.id)}">×</button>
+              <button class="mini-button" type="button" title="保管場所を編集" aria-label="${escapeHtml(container.name)}を編集" data-edit-container="${escapeHtml(container.id)}">✎</button>
+              <button class="mini-button" type="button" title="保管場所を削除" aria-label="${escapeHtml(container.name)}を削除" data-delete-container="${escapeHtml(container.id)}">×</button>
             </div>
           </div>
           <table class="item-table">
@@ -604,13 +604,13 @@ function renderPresetEditor() {
               ${photoMarkup(item, "picker-photo")}
               <span>
                 ${escapeHtml(item.name)}
-                <small>${escapeHtml(item.category)} / ${escapeHtml(container?.name || "未分類の収納箱")}</small>
+                <small>${escapeHtml(item.category)} / ${escapeHtml(container?.name || "未分類の保管場所")}</small>
               </span>
             </label>
           `;
         })
         .join("")
-    : `<p class="empty-state">まだ用品が登録されていません。先に「収納箱」で用品を追加してください。</p>`;
+    : `<p class="empty-state">まだ用品が登録されていません。先に「保管場所」で用品を追加してください。</p>`;
 }
 
 function resetItemForm() {
@@ -861,7 +861,7 @@ function bindEvents() {
       openContainerDialog(getContainer(editContainerId));
     }
 
-    if (deleteContainerId && confirm("この収納箱を削除しますか？中の用品は別の収納箱へ移します。")) {
+    if (deleteContainerId && confirm("この保管場所を削除しますか？中の用品は別の保管場所へ移します。")) {
       deleteContainer(deleteContainerId);
       render();
     }
