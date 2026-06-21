@@ -5,132 +5,41 @@ const PHOTO_STORE = "photos";
 const HEX_COLOR = /^#[0-9a-fA-F]{6}$/;
 
 const sampleData = {
-  containers: [
-    { id: "c-kitchen", name: "記入例: 調理用品棚", location: "例: トランクルーム入口から右、上から2段目", color: "#bd5635" },
-    { id: "c-light", name: "記入例: 照明・電源エリア", location: "例: 奥の壁側、充電用品の近く", color: "#426d8f" },
-    { id: "c-shelter", name: "記入例: 大型ギア区画", location: "例: 左奥の床置きスペース", color: "#2f6f56" },
-  ],
-  items: [
-    {
-      id: "i-lantern",
-      name: "LEDランタン",
-      category: "照明",
-      containerId: "c-light",
-      quantity: 2,
-      status: "使用可",
-      note: "USB-C充電",
-    },
-    {
-      id: "i-battery",
-      name: "ポータブル電源",
-      category: "電源",
-      containerId: "c-light",
-      quantity: 1,
-      status: "使用可",
-      note: "出発前に満充電",
-    },
-    {
-      id: "i-burner",
-      name: "シングルバーナー",
-      category: "調理",
-      containerId: "c-kitchen",
-      quantity: 1,
-      status: "使用可",
-      note: "OD缶も確認",
-    },
-    {
-      id: "i-cooker",
-      name: "クッカーセット",
-      category: "調理",
-      containerId: "c-kitchen",
-      quantity: 1,
-      status: "使用可",
-      note: "",
-    },
-    {
-      id: "i-stakes",
-      name: "ペグ・ハンマー",
-      category: "設営",
-      containerId: "c-shelter",
-      quantity: 1,
-      status: "使用可",
-      note: "予備ペグ8本",
-    },
-    {
-      id: "i-tarp",
-      name: "タープ",
-      category: "設営",
-      containerId: "c-shelter",
-      quantity: 1,
-      status: "車載中",
-      note: "ポール袋と一緒",
-    },
-    {
-      id: "i-gas",
-      name: "ガス缶",
-      category: "調理",
-      containerId: "c-kitchen",
-      quantity: 3,
-      status: "補充必要",
-      note: "新品を1本追加",
-    },
-    {
-      id: "i-wipes",
-      name: "ウェットティッシュ",
-      category: "衛生",
-      containerId: "c-kitchen",
-      quantity: 1,
-      status: "補充必要",
-      note: "",
-    },
-  ],
-  presets: [
-    {
-      id: "p-family",
-      name: "ファミリー1泊",
-      tripType: "1泊 / オートキャンプ",
-      note: "調理と照明を厚めに持つ",
-      itemIds: ["i-lantern", "i-battery", "i-burner", "i-cooker", "i-stakes", "i-tarp", "i-gas", "i-wipes"],
-    },
-    {
-      id: "p-day",
-      name: "デイキャンプ",
-      tripType: "日帰り",
-      note: "設営は軽め",
-      itemIds: ["i-lantern", "i-burner", "i-cooker", "i-gas", "i-wipes"],
-    },
-    {
-      id: "p-solo",
-      name: "ソロ軽量",
-      tripType: "1泊 / ソロ",
-      note: "必要最低限",
-      itemIds: ["i-lantern", "i-burner", "i-cooker", "i-stakes", "i-gas"],
-    },
-  ],
-  activePresetId: "p-family",
-  selectedPresetId: "p-family",
+  containers: [],
+  items: [],
+  presets: [],
+  activePresetId: "",
+  selectedPresetId: "",
   checkedItemIds: [],
 };
 
 const sampleContainerNames = {
   "c-kitchen": {
-    nextName: "記入例: 調理用品棚",
-    nextLocation: "例: トランクルーム入口から右、上から2段目",
     oldNames: ["キッチン箱", "記入例: 調理用品棚"],
-    oldLocations: ["車庫 棚上", "例: トランクルーム入口から右、上から2段目"],
   },
   "c-light": {
-    nextName: "記入例: 照明・電源エリア",
-    nextLocation: "例: 奥の壁側、充電用品の近く",
     oldNames: ["照明・電源箱", "記入例: 照明・電源エリア"],
-    oldLocations: ["玄関収納", "例: 奥の壁側、充電用品の近く"],
   },
   "c-shelter": {
-    nextName: "記入例: 大型ギア区画",
-    nextLocation: "例: 左奥の床置きスペース",
     oldNames: ["設営道具箱", "記入例: 大型ギア区画"],
-    oldLocations: ["車庫 下段", "例: 左奥の床置きスペース"],
   },
+};
+
+const sampleItemNames = {
+  "i-lantern": { oldNames: ["LEDランタン", "記入例: LEDランタン"] },
+  "i-battery": { oldNames: ["ポータブル電源", "記入例: ポータブル電源"] },
+  "i-burner": { oldNames: ["シングルバーナー", "記入例: シングルバーナー"] },
+  "i-cooker": { oldNames: ["クッカーセット", "記入例: クッカーセット"] },
+  "i-stakes": { oldNames: ["ペグ・ハンマー", "記入例: ペグ・ハンマー"] },
+  "i-tarp": { oldNames: ["タープ", "記入例: タープ"] },
+  "i-gas": { oldNames: ["ガス缶", "記入例: ガス缶"] },
+  "i-wipes": { oldNames: ["ウェットティッシュ", "記入例: ウェットティッシュ"] },
+};
+
+const samplePresetNames = {
+  "p-family": ["ファミリー1泊"],
+  "p-day": ["デイキャンプ"],
+  "p-solo": ["ソロ軽量"],
 };
 
 let loadWarning = "";
@@ -199,7 +108,7 @@ function loadState() {
   try {
     return { ...structuredClone(sampleData), ...JSON.parse(saved) };
   } catch (error) {
-    loadWarning = "保存データを読み込めなかったため、サンプル表示に戻しました。バックアップファイルがあれば「バックアップから復元」で戻してください。";
+    loadWarning = "保存データを読み込めなかったため、空の状態に戻しました。バックアップファイルがあれば「バックアップから復元」で戻してください。";
     console.error(error);
     return structuredClone(sampleData);
   }
@@ -401,60 +310,71 @@ function normalizeState() {
   state.presets = Array.isArray(state.presets) ? state.presets : [];
   state.checkedItemIds = Array.isArray(state.checkedItemIds) ? state.checkedItemIds : [];
 
-  state.containers = state.containers.map((container) => {
+  state.containers = state.containers
+    .filter((container) => {
+      const sample = sampleContainerNames[container.id];
+      const isLegacySample =
+        sample && (sample.oldNames.includes(container.name) || String(container.name || "").startsWith("記入例:"));
+      return !isLegacySample;
+    })
+    .map((container) => {
     const id = container.id || uid("c");
-    const sample = sampleContainerNames[id];
-    const isSampleName = sample?.oldNames.includes(container.name);
-    const isSampleLocation = sample?.oldLocations.includes(container.location);
 
     return {
       id,
-      name: isSampleName ? sample.nextName : container.name || "未名称の保管場所",
-      location: isSampleLocation ? sample.nextLocation : container.location || "",
+      name: container.name || "未名称の保管場所",
+      location: container.location || "",
       color: sanitizeColor(container.color),
     };
   });
 
-  if (!state.containers.length) {
-    state.containers.push({ id: uid("c"), name: "未分類の保管場所", location: "", color: "#2f6f56" });
-  }
+  const containerIds = new Set(state.containers.map((container) => container.id));
 
-  state.items = state.items.map((item) => ({
-    id: item.id || uid("i"),
-    name: item.name || "未名称の用品",
-    category: item.category || "その他",
-    containerId: state.containers.some((container) => container.id === item.containerId)
-      ? item.containerId
-      : state.containers[0].id,
-    quantity: Math.max(1, Number(item.quantity || 1)),
-    status: item.status || "使用可",
-    note: item.note || "",
-    photoId: item.photoId || "",
-    ...(isSafePhotoData(item.photo) ? { photo: item.photo } : {}),
-  }));
+  state.items = state.items
+    .filter((item) => {
+      const sample = sampleItemNames[item.id];
+      const isLegacySample =
+        sample && (sample.oldNames.includes(item.name) || String(item.name || "").startsWith("記入例:"));
+      return !isLegacySample;
+    })
+    .filter((item) => containerIds.has(item.containerId))
+    .map((item) => {
+    const id = item.id || uid("i");
 
-  state.presets = state.presets.map((preset) => ({
+    return {
+      id,
+      name: item.name || "未名称の用品",
+      category: item.category || "その他",
+      containerId: item.containerId,
+      quantity: Math.max(1, Number(item.quantity || 1)),
+      status: item.status || "使用可",
+      note: item.note || "",
+      photoId: item.photoId || "",
+      ...(isSafePhotoData(item.photo) ? { photo: item.photo } : {}),
+    };
+  });
+
+  const itemIds = new Set(state.items.map((item) => item.id));
+
+  state.presets = state.presets
+    .filter((preset) => !samplePresetNames[preset.id]?.includes(preset.name))
+    .map((preset) => ({
     id: preset.id || uid("p"),
     name: preset.name || "未名称セット",
     tripType: preset.tripType || "",
     note: preset.note || "",
-    itemIds: Array.isArray(preset.itemIds) ? preset.itemIds : [],
+    itemIds: Array.isArray(preset.itemIds) ? preset.itemIds.filter((id) => itemIds.has(id)) : [],
   }));
 
-  if (!state.presets.length) {
-    const preset = { id: uid("p"), name: "新しいセット", tripType: "", note: "", itemIds: [] };
-    state.presets.push(preset);
-    state.activePresetId = preset.id;
-    state.selectedPresetId = preset.id;
-  }
-
   if (!state.presets.some((preset) => preset.id === state.activePresetId)) {
-    state.activePresetId = state.presets[0].id;
+    state.activePresetId = state.presets[0]?.id || "";
   }
 
   if (!state.presets.some((preset) => preset.id === state.selectedPresetId)) {
-    state.selectedPresetId = state.presets[0].id;
+    state.selectedPresetId = state.presets[0]?.id || "";
   }
+
+  state.checkedItemIds = state.checkedItemIds.filter((id) => itemIds.has(id));
 }
 
 function renderStats() {
@@ -464,6 +384,7 @@ function renderStats() {
 }
 
 function renderPresetSelect() {
+  elements.activePresetSelect.disabled = !state.presets.length;
   elements.activePresetSelect.innerHTML = state.presets
     .map((preset) => `<option value="${escapeHtml(preset.id)}">${escapeHtml(preset.name)}</option>`)
     .join("");
@@ -472,6 +393,11 @@ function renderPresetSelect() {
 
 function renderChecklist() {
   const preset = getActivePreset();
+  if (!preset) {
+    elements.checklist.innerHTML = `<p class="empty-state">まだ持ち出しセットがありません。先に「持ち出しセットを追加」で作成してください。</p>`;
+    return;
+  }
+
   const items = filteredItems(state.items.filter((item) => preset.itemIds.includes(item.id)));
 
   if (!items.length) {
@@ -500,6 +426,12 @@ function renderChecklist() {
 
 function renderLoadout() {
   const preset = getActivePreset();
+  if (!preset) {
+    elements.loadoutCount.textContent = "0点";
+    elements.loadoutContainers.innerHTML = `<p class="empty-state">持ち出しセットを作ると、取りに行く保管場所がここに表示されます。</p>`;
+    return;
+  }
+
   const items = state.items.filter((item) => preset.itemIds.includes(item.id));
   elements.loadoutCount.textContent = `${items.length}点`;
 
@@ -530,13 +462,19 @@ function renderLoadout() {
 }
 
 function renderItemContainerOptions() {
-  elements.itemContainer.innerHTML = state.containers
-    .map((container) => `<option value="${escapeHtml(container.id)}">${escapeHtml(container.name)}</option>`)
-    .join("");
+  elements.itemContainer.disabled = !state.containers.length;
+  elements.itemContainer.innerHTML = state.containers.length
+    ? state.containers.map((container) => `<option value="${escapeHtml(container.id)}">${escapeHtml(container.name)}</option>`).join("")
+    : `<option value="">先に保管場所を追加してください</option>`;
 }
 
 function renderContainers() {
   const items = filteredItems();
+
+  if (!state.containers.length) {
+    elements.containerList.innerHTML = `<p class="empty-state large-empty">まだ保管場所がありません。「保管場所を追加」から、トランクルーム内の部屋・棚・区画を登録してください。</p>`;
+    return;
+  }
 
   elements.containerList.innerHTML = state.containers
     .map((container) => {
@@ -599,6 +537,11 @@ function renderContainers() {
 }
 
 function renderPresetList() {
+  if (!state.presets.length) {
+    elements.presetList.innerHTML = `<p class="empty-state">まだ持ち出しセットがありません。「持ち出しセットを追加」から作成してください。</p>`;
+    return;
+  }
+
   elements.presetList.innerHTML = state.presets
     .map(
       (preset) => `
@@ -613,7 +556,27 @@ function renderPresetList() {
 
 function renderPresetEditor() {
   const preset = getSelectedPreset();
-  if (!preset) return;
+  const saveButton = elements.presetForm.querySelector('button[type="submit"]');
+  elements.deletePresetButton.disabled = !preset;
+  saveButton.disabled = !preset;
+  elements.presetName.disabled = !preset;
+  elements.presetTripType.disabled = !preset;
+  elements.presetNote.disabled = !preset;
+
+  if (!preset) {
+    elements.presetEditorTitle.textContent = "持ち出しセットを追加してください";
+    elements.presetName.value = "";
+    elements.presetTripType.value = "";
+    elements.presetNote.value = "";
+    elements.presetItemCount.textContent = "0点";
+    elements.presetItemPicker.innerHTML = `<p class="empty-state">まだ持ち出しセットがありません。右上の「持ち出しセットを追加」から作成してください。</p>`;
+    return;
+  }
+
+  elements.presetName.disabled = false;
+  elements.presetTripType.disabled = false;
+  elements.presetNote.disabled = false;
+  saveButton.disabled = false;
 
   elements.presetEditorTitle.textContent = `${preset.name}を編集`;
   elements.presetName.value = preset.name;
@@ -661,11 +624,22 @@ function openContainerDialog(container) {
 }
 
 function deleteContainer(containerId) {
-  if (state.containers.length === 1) return;
   const fallback = state.containers.find((container) => container.id !== containerId);
-  state.items = state.items.map((item) =>
-    item.containerId === containerId ? { ...item, containerId: fallback.id } : item,
-  );
+
+  if (fallback) {
+    state.items = state.items.map((item) =>
+      item.containerId === containerId ? { ...item, containerId: fallback.id } : item,
+    );
+  } else {
+    const deletedItemIds = new Set(state.items.filter((item) => item.containerId === containerId).map((item) => item.id));
+    state.items = state.items.filter((item) => item.containerId !== containerId);
+    state.presets = state.presets.map((preset) => ({
+      ...preset,
+      itemIds: preset.itemIds.filter((id) => !deletedItemIds.has(id)),
+    }));
+    state.checkedItemIds = state.checkedItemIds.filter((id) => !deletedItemIds.has(id));
+  }
+
   state.containers = state.containers.filter((container) => container.id !== containerId);
 }
 
@@ -691,7 +665,7 @@ function bindEvents() {
   elements.searchInput.addEventListener("input", () => render({ persist: false }));
 
   elements.seedButton.addEventListener("click", async () => {
-    if (!confirm("全データをサンプルに戻します。現在の登録内容は上書きされます。先に「バックアップを保存」を使ってください。")) return;
+    if (!confirm("全データを空にします。現在の登録内容は削除されます。先に「バックアップを保存」を使ってください。")) return;
     if (!confirm("本当に全初期化しますか？この操作は元に戻せません。")) return;
     state = structuredClone(sampleData);
     await clearPhotos();
@@ -796,6 +770,12 @@ function bindEvents() {
 
   elements.itemForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (!state.containers.length) {
+      alert("先に保管場所を追加してください。");
+      activateView("containers");
+      return;
+    }
+
     const id = elements.itemId.value || uid("i");
     const previous = state.items.find((current) => current.id === id);
     let photoId = draftItemPhotoId;
@@ -889,7 +869,11 @@ function bindEvents() {
       openContainerDialog(getContainer(editContainerId));
     }
 
-    if (deleteContainerId && confirm("この保管場所を削除しますか？中の用品は別の保管場所へ移します。")) {
+    const deleteContainerMessage =
+      state.containers.length > 1
+        ? "この保管場所を削除しますか？中の用品は別の保管場所へ移します。"
+        : "この保管場所を削除しますか？中の用品も削除されます。";
+    if (deleteContainerId && confirm(deleteContainerMessage)) {
       deleteContainer(deleteContainerId);
       render();
     }
@@ -913,6 +897,11 @@ function bindEvents() {
   elements.presetForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const preset = getSelectedPreset();
+    if (!preset) {
+      alert("先に持ち出しセットを追加してください。");
+      return;
+    }
+
     const visibleItemIds = new Set(filteredItems().map((item) => item.id));
     const checkedVisibleIds = Array.from(elements.presetItemPicker.querySelectorAll("input:checked")).map(
       (input) => input.value,
@@ -939,10 +928,10 @@ function bindEvents() {
   });
 
   elements.deletePresetButton.addEventListener("click", () => {
-    if (state.presets.length === 1 || !confirm("この持ち出しセットを削除しますか？")) return;
+    if (!state.presets.length || !confirm("この持ち出しセットを削除しますか？")) return;
     state.presets = state.presets.filter((preset) => preset.id !== state.selectedPresetId);
-    state.selectedPresetId = state.presets[0].id;
-    state.activePresetId = state.presets[0].id;
+    state.selectedPresetId = state.presets[0]?.id || "";
+    state.activePresetId = state.presets[0]?.id || "";
     state.checkedItemIds = [];
     render();
   });
