@@ -112,6 +112,27 @@ const sampleData = {
   checkedItemIds: [],
 };
 
+const sampleContainerNames = {
+  "c-kitchen": {
+    nextName: "記入例: 調理用品棚",
+    nextLocation: "例: トランクルーム入口から右、上から2段目",
+    oldNames: ["キッチン箱", "記入例: 調理用品棚"],
+    oldLocations: ["車庫 棚上", "例: トランクルーム入口から右、上から2段目"],
+  },
+  "c-light": {
+    nextName: "記入例: 照明・電源エリア",
+    nextLocation: "例: 奥の壁側、充電用品の近く",
+    oldNames: ["照明・電源箱", "記入例: 照明・電源エリア"],
+    oldLocations: ["玄関収納", "例: 奥の壁側、充電用品の近く"],
+  },
+  "c-shelter": {
+    nextName: "記入例: 大型ギア区画",
+    nextLocation: "例: 左奥の床置きスペース",
+    oldNames: ["設営道具箱", "記入例: 大型ギア区画"],
+    oldLocations: ["車庫 下段", "例: 左奥の床置きスペース"],
+  },
+};
+
 let loadWarning = "";
 let state = loadState();
 let photoDb = null;
@@ -380,12 +401,19 @@ function normalizeState() {
   state.presets = Array.isArray(state.presets) ? state.presets : [];
   state.checkedItemIds = Array.isArray(state.checkedItemIds) ? state.checkedItemIds : [];
 
-  state.containers = state.containers.map((container) => ({
-    id: container.id || uid("c"),
-    name: container.name || "未名称の保管場所",
-    location: container.location || "",
-    color: sanitizeColor(container.color),
-  }));
+  state.containers = state.containers.map((container) => {
+    const id = container.id || uid("c");
+    const sample = sampleContainerNames[id];
+    const isSampleName = sample?.oldNames.includes(container.name);
+    const isSampleLocation = sample?.oldLocations.includes(container.location);
+
+    return {
+      id,
+      name: isSampleName ? sample.nextName : container.name || "未名称の保管場所",
+      location: isSampleLocation ? sample.nextLocation : container.location || "",
+      color: sanitizeColor(container.color),
+    };
+  });
 
   if (!state.containers.length) {
     state.containers.push({ id: uid("c"), name: "未分類の保管場所", location: "", color: "#2f6f56" });
