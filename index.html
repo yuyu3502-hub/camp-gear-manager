@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>お父さんのキャンプ用品管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260621-3" />
+    <link rel="stylesheet" href="./styles.css?v=20260625-1" />
   </head>
   <body>
     <div class="app-shell">
@@ -107,6 +107,60 @@
             </ol>
           </section>
 
+          <section class="room-map-panel" aria-labelledby="roomMapTitle">
+            <div class="section-head compact-head">
+              <div>
+                <p class="eyebrow">この部屋の見取り図</p>
+                <h2 id="roomMapTitle">入口から見た保管場所</h2>
+                <p>実測ではなく、現地で探すための区画図です。用品登録ではこのコードを保管場所名に使います。</p>
+              </div>
+            </div>
+
+            <div class="room-map" aria-label="トランクルームの見取り図">
+              <div class="map-entry">入口</div>
+              <div class="map-zone zone-l0">
+                <strong>L0</strong>
+                <span>左ラック天板</span>
+                <small>上のケース・バッグ</small>
+              </div>
+              <div class="map-zone zone-l1">
+                <strong>L1</strong>
+                <span>左ラック2段目</span>
+                <small>黒ケース・小物</small>
+              </div>
+              <div class="map-zone zone-l2">
+                <strong>L2</strong>
+                <span>左ラック3段目</span>
+                <small>寝袋・布物</small>
+              </div>
+              <div class="map-zone zone-l3">
+                <strong>L3</strong>
+                <span>左ラック下段</span>
+                <small>低いバッグ類</small>
+              </div>
+              <div class="map-zone zone-b1">
+                <strong>B1</strong>
+                <span>奥壁まわり</span>
+                <small>縦長ケース・細物</small>
+              </div>
+              <div class="map-zone zone-r1">
+                <strong>R1</strong>
+                <span>右奥 積み箱</span>
+                <small>重なった箱</small>
+              </div>
+              <div class="map-zone zone-r2">
+                <strong>R2</strong>
+                <span>右手前 大型袋</span>
+                <small>大きい袋・透明箱</small>
+              </div>
+              <div class="map-zone zone-f1">
+                <strong>F1</strong>
+                <span>床・通路</span>
+                <small>一時置き・大型ケース</small>
+              </div>
+            </div>
+          </section>
+
           <div class="section-head">
             <div>
               <h2 id="dashboardTitle">次のキャンプ準備</h2>
@@ -145,6 +199,7 @@
 
           <div class="hint-strip">
             <span>1. 棚・右奥・床手前などで場所を作る</span>
+            <span>例: L1 左ラック2段目、R1 右奥 積み箱</span>
             <span>2. ケースやバッグ単位で用品を保存する</span>
             <span>3. 一覧の鉛筆で後から編集できる</span>
           </div>
@@ -279,7 +334,7 @@
         <input type="hidden" id="containerId" />
         <label>
           場所の名前
-          <input id="containerName" required placeholder="例: 左ラック2段目 / 右奥 / 床手前" />
+          <input id="containerName" required placeholder="例: L1 左ラック2段目 / R1 右奥 積み箱" />
         </label>
         <label>
           場所のメモ

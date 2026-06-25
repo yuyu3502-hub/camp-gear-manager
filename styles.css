@@ -347,6 +347,10 @@ button {
   margin-bottom: 18px;
 }
 
+.compact-head {
+  margin-bottom: 12px;
+}
+
 .section-head h2 {
   font-size: clamp(26px, 4vw, 40px);
   line-height: 1.12;
@@ -359,6 +363,126 @@ button {
 
 .section-head select {
   min-width: 240px;
+}
+
+.room-map-panel {
+  margin-bottom: 22px;
+  padding: 18px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.room-map {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr) minmax(120px, 1fr);
+  grid-template-areas:
+    "entry entry entry"
+    "l0 b1 r1"
+    "l1 b1 r1"
+    "l2 f1 r2"
+    "l3 f1 r2";
+  gap: 10px;
+  padding: 12px;
+  background: #f8f4ea;
+  border: 1px solid #e2d8c2;
+  border-radius: 8px;
+}
+
+.map-entry {
+  grid-area: entry;
+  min-height: 36px;
+  display: grid;
+  place-items: center;
+  background: #24372f;
+  color: #fff7e8;
+  border-radius: 8px;
+  font-weight: 900;
+}
+
+.map-zone {
+  min-height: 92px;
+  display: grid;
+  gap: 4px;
+  align-content: center;
+  padding: 12px;
+  border: 1px solid rgba(36, 55, 47, 0.14);
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.map-zone strong {
+  width: fit-content;
+  min-width: 38px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+}
+
+.map-zone span {
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.map-zone small {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.zone-l0,
+.zone-l1,
+.zone-l2,
+.zone-l3 {
+  border-left: 5px solid var(--rust);
+}
+
+.zone-b1 {
+  border-left: 5px solid var(--blue);
+}
+
+.zone-r1,
+.zone-r2 {
+  border-left: 5px solid var(--accent);
+}
+
+.zone-f1 {
+  border-left: 5px solid var(--gold);
+}
+
+.zone-l0 {
+  grid-area: l0;
+}
+
+.zone-l1 {
+  grid-area: l1;
+}
+
+.zone-l2 {
+  grid-area: l2;
+}
+
+.zone-l3 {
+  grid-area: l3;
+}
+
+.zone-b1 {
+  grid-area: b1;
+}
+
+.zone-r1 {
+  grid-area: r1;
+}
+
+.zone-r2 {
+  grid-area: r2;
+}
+
+.zone-f1 {
+  grid-area: f1;
 }
 
 .dashboard-grid,
@@ -926,6 +1050,28 @@ dialog h3 {
   .two-col,
   .guide-steps {
     grid-template-columns: 1fr;
+  }
+
+  .room-map-panel {
+    padding: 14px;
+  }
+
+  .room-map {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "entry"
+      "l0"
+      "l1"
+      "l2"
+      "l3"
+      "b1"
+      "r1"
+      "r2"
+      "f1";
+  }
+
+  .map-zone {
+    min-height: 76px;
   }
 
   .guide-panel {
