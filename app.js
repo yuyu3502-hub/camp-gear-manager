@@ -159,7 +159,7 @@ function filteredItems(items = state.items) {
 
 function statusClass(status) {
   if (status === "使用可" || status === "車載中") return "status-ok";
-  if (status === "補充必要") return "status-warn";
+  if (status === "補充必要" || status === "中身未確認") return "status-warn";
   return "status-bad";
 }
 

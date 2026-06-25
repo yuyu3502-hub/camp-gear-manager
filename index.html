@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>キャンプ用品保管場所管理</title>
+    <title>お父さんのキャンプ用品管理</title>
     <link rel="stylesheet" href="./styles.css?v=20260621-3" />
   </head>
   <body>
@@ -19,8 +19,8 @@
             </svg>
           </div>
           <div>
-            <h1>キャンプ用品管理</h1>
-            <p>保管場所と持ち出しセット</p>
+            <h1>お父さんのキャンプ用品管理</h1>
+            <p>トランクルームと持ち出しセット</p>
           </div>
         </div>
 
@@ -79,9 +79,9 @@
         <section class="view active" id="dashboardView" aria-labelledby="dashboardTitle">
           <section class="guide-panel" aria-labelledby="guideTitle">
             <div>
-              <p class="eyebrow">はじめて使うとき</p>
-              <h2 id="guideTitle">まずは保管場所を登録して、用品を置いた場所と持ち出しセットを作ります。</h2>
-              <p class="guide-note">最初は保管場所・用品・セットが0件の状態から始まります。例は入力欄の薄い文字を参考にしてください。</p>
+              <p class="eyebrow">お父さん用の使い方</p>
+              <h2 id="guideTitle">まずはトランクルームの場所を分けて、ケースやバッグ単位で登録します。</h2>
+              <p class="guide-note">最初は保管場所・用品・セットが0件の状態から始まります。細かく分けすぎず、左ラック2段目・右奥・床手前のように探せる名前で登録してください。</p>
               <div class="guide-actions">
                 <button class="primary-button" type="button" data-go-view="containers">まず保管場所を追加する</button>
                 <button class="secondary-button" type="button" data-go-view="presets">持ち出しセットを作る</button>
@@ -89,16 +89,16 @@
             </div>
             <ol class="guide-steps">
               <li>
-                <strong>保管場所を登録</strong>
-                <span>トランクルーム内の部屋、棚、区画などを登録します。</span>
+                <strong>場所をざっくり分ける</strong>
+                <span>左ラック上段、右奥、床手前など、現地で見て分かる場所を登録します。</span>
               </li>
               <li>
-                <strong>用品を追加</strong>
-                <span>写真、数量、状態、メモを入れて「どこにあるか」を見える化します。</span>
+                <strong>ケースやバッグを登録</strong>
+                <span>中身が未確認でも、写真と見た目の名前で一旦保存します。</span>
               </li>
               <li>
                 <strong>持ち出しセットを作成</strong>
-                <span>ファミリー1泊、デイキャンプなど、行き先ごとの持ち物セットを保存します。</span>
+                <span>ファミリー1泊、デイキャンプなど、お父さんが準備する単位で保存します。</span>
               </li>
               <li>
                 <strong>出発前にチェック</strong>
@@ -138,30 +138,32 @@
           <div class="section-head">
             <div>
               <h2 id="containersTitle">保管場所別の用品</h2>
-              <p>トランクルームのどの場所に何があるかを登録します。</p>
+              <p>棚の段、右奥、床手前など、実際に探しに行く場所で登録します。</p>
             </div>
             <button class="primary-button" id="addContainerButton" type="button">保管場所を追加</button>
           </div>
 
           <div class="hint-strip">
-            <span>1. 「保管場所を追加」で場所を作る</span>
-            <span>2. 左のフォームで用品を保存する</span>
+            <span>1. 棚・右奥・床手前などで場所を作る</span>
+            <span>2. ケースやバッグ単位で用品を保存する</span>
             <span>3. 一覧の鉛筆で後から編集できる</span>
           </div>
 
           <div class="management-grid">
             <section class="panel form-panel">
               <h3 id="itemFormTitle">用品を追加</h3>
-              <p class="panel-note">写真を入れておくと、家族でも探しやすくなります。</p>
+              <p class="panel-note">現地では、まず写真と見た目の名前だけでも保存してください。中身は後から直せます。</p>
               <form id="itemForm">
                 <input type="hidden" id="itemId" />
                 <label>
                   用品名
-                  <input id="itemName" required placeholder="例: LEDランタン" />
+                  <input id="itemName" required placeholder="例: 黒いハードケース / 緑のバッグ" />
                 </label>
                 <label>
                   カテゴリ
                   <select id="itemCategory">
+                    <option>ケース・バッグ</option>
+                    <option>大型ギア</option>
                     <option>照明</option>
                     <option>調理</option>
                     <option>寝具</option>
@@ -192,6 +194,7 @@
                   <label>
                     状態
                     <select id="itemStatus">
+                      <option>中身未確認</option>
                       <option>使用可</option>
                       <option>補充必要</option>
                       <option>修理必要</option>
@@ -201,7 +204,7 @@
                 </div>
                 <label>
                   メモ
-                  <textarea id="itemNote" rows="3" placeholder="電池、ガス缶、消耗品の残量など"></textarea>
+                  <textarea id="itemNote" rows="3" placeholder="例: 中身未確認、重い、奥にある、よく使う"></textarea>
                 </label>
                 <div class="form-actions">
                   <button class="primary-button" type="submit">保存</button>
@@ -218,7 +221,7 @@
           <div class="section-head">
             <div>
               <h2 id="presetsTitle">キャンプ別の持ち出しセット</h2>
-              <p>ファミリー、ソロ、デイキャンプなど、持っていくセットを作れます。</p>
+              <p>ファミリー、ソロ、デイキャンプなど、お父さんが準備する持ち物をまとめます。</p>
             </div>
             <button class="primary-button" id="addPresetButton" type="button">持ち出しセットを追加</button>
           </div>
@@ -263,7 +266,7 @@
         <section class="help-section" aria-labelledby="helpTitle">
           <div>
             <h2 id="helpTitle">保存と共有について</h2>
-            <p>データはこの端末のこのブラウザだけに保存されます。家族のスマホや別のPCには自動で共有されないため、使い回すときは「バックアップを保存」でバックアップファイルを保存し、別端末で「バックアップから復元」を使ってください。</p>
+            <p>データはお父さんが使っているこの端末・このブラウザだけに保存されます。別のスマホやPCには自動で共有されないため、使い回すときは「バックアップを保存」でバックアップファイルを保存し、別端末で「バックアップから復元」を使ってください。</p>
           </div>
           <a class="help-link" href="https://github.com/yuyu3502-hub/camp-gear-manager" target="_blank" rel="noreferrer">開発情報を見る</a>
         </section>
@@ -276,7 +279,7 @@
         <input type="hidden" id="containerId" />
         <label>
           場所の名前
-          <input id="containerName" required placeholder="例: トランクルーム右奥の棚" />
+          <input id="containerName" required placeholder="例: 左ラック2段目 / 右奥 / 床手前" />
         </label>
         <label>
           場所のメモ
