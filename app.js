@@ -623,6 +623,33 @@ function openContainerDialog(container) {
   elements.containerDialog.showModal();
 }
 
+function roomLocationColor(name) {
+  if (name.startsWith("L")) return "#bd5635";
+  if (name.startsWith("B")) return "#426d8f";
+  if (name.startsWith("F")) return "#e5b94e";
+  return "#2f6f56";
+}
+
+function selectRoomLocation(locationName) {
+  const existing = state.containers.find((container) => container.name === locationName);
+  const container = existing || {
+    id: uid("c"),
+    name: locationName,
+    location: "この部屋の見取り図から追加",
+    color: roomLocationColor(locationName),
+  };
+
+  if (!existing) {
+    state.containers = [...state.containers, container];
+  }
+
+  activateView("containers");
+  render();
+  elements.itemContainer.value = container.id;
+  elements.itemName.focus();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 function deleteContainer(containerId) {
   const fallback = state.containers.find((container) => container.id !== containerId);
 
@@ -660,6 +687,24 @@ function bindEvents() {
     if (!viewName) return;
     activateView(viewName);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  document.addEventListener("click", (event) => {
+    const roomZone = event.target.closest("[data-room-zone]")?.dataset.roomZone;
+    if (!roomZone) return;
+
+    $$("[data-room-zone]").forEach((button) => {
+      button.classList.toggle("active", button.dataset.roomZone === roomZone);
+    });
+    $$("[data-room-detail]").forEach((detail) => {
+      detail.classList.toggle("active", detail.dataset.roomDetail === roomZone);
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    const locationName = event.target.closest("[data-create-location]")?.dataset.createLocation;
+    if (!locationName) return;
+    selectRoomLocation(locationName);
   });
 
   elements.searchInput.addEventListener("input", () => render({ persist: false }));
