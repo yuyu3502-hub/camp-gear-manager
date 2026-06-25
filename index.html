@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>お父さんのキャンプ用品管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260625-1" />
+    <link rel="stylesheet" href="./styles.css?v=20260625-2" />
   </head>
   <body>
     <div class="app-shell">
@@ -110,53 +110,75 @@
           <section class="room-map-panel" aria-labelledby="roomMapTitle">
             <div class="section-head compact-head">
               <div>
-                <p class="eyebrow">この部屋の見取り図</p>
-                <h2 id="roomMapTitle">入口から見た保管場所</h2>
-                <p>実測ではなく、現地で探すための区画図です。用品登録ではこのコードを保管場所名に使います。</p>
+                <p class="eyebrow">この部屋の再現図</p>
+                <h2 id="roomMapTitle">写真から起こした置き場所</h2>
+                <p>実測ではなく、現地で探すための配置図です。用品登録では L1 や R1 などのコードを保管場所名に使います。</p>
               </div>
             </div>
 
-            <div class="room-map" aria-label="トランクルームの見取り図">
-              <div class="map-entry">入口</div>
-              <div class="map-zone zone-l0">
-                <strong>L0</strong>
-                <span>左ラック天板</span>
-                <small>上のケース・バッグ</small>
+            <div class="room-visual" aria-label="写真から起こしたトランクルーム配置図">
+              <div class="visual-entry">入口から見る</div>
+              <div class="visual-wall wall-left">左壁</div>
+              <div class="visual-wall wall-back">奥壁</div>
+              <div class="visual-wall wall-right">右壁</div>
+
+              <div class="shelf-frame" aria-label="左ラック">
+                <div class="shelf-post post-left"></div>
+                <div class="shelf-post post-right"></div>
+
+                <div class="shelf-row shelf-top" data-zone="L0">
+                  <div class="zone-label"><strong>L0</strong><span>左ラック天板</span></div>
+                  <span class="item-shape bag tan">ベージュケース</span>
+                  <span class="item-shape bag green">緑バッグ</span>
+                  <span class="item-shape slim">細長い道具</span>
+                </div>
+
+                <div class="shelf-row shelf-middle" data-zone="L1">
+                  <div class="zone-label"><strong>L1</strong><span>左ラック2段目</span></div>
+                  <span class="item-shape box brown">茶色箱</span>
+                  <span class="item-shape case black">黒ハードケース</span>
+                  <span class="item-shape pouch green">緑ソフトバッグ</span>
+                </div>
+
+                <div class="shelf-row shelf-lower" data-zone="L2">
+                  <div class="zone-label"><strong>L2</strong><span>左ラック3段目</span></div>
+                  <span class="item-shape soft dark">黒い袋</span>
+                  <span class="item-shape soft white">白い寝袋</span>
+                  <span class="item-shape soft silver">銀マット袋</span>
+                </div>
+
+                <div class="shelf-row shelf-bottom" data-zone="L3">
+                  <div class="zone-label"><strong>L3</strong><span>左ラック下段</span></div>
+                  <span class="item-shape soft olive">低いバッグ</span>
+                  <span class="item-shape soft yellow">黄色袋</span>
+                  <span class="item-shape slim dark">畳み道具</span>
+                </div>
               </div>
-              <div class="map-zone zone-l1">
-                <strong>L1</strong>
-                <span>左ラック2段目</span>
-                <small>黒ケース・小物</small>
+
+              <div class="back-wall-zone" data-zone="B1">
+                <div class="zone-label"><strong>B1</strong><span>奥壁まわり</span></div>
+                <span class="item-shape tall black">縦長ケース</span>
+                <span class="item-shape tiny red">赤い小物</span>
               </div>
-              <div class="map-zone zone-l2">
-                <strong>L2</strong>
-                <span>左ラック3段目</span>
-                <small>寝袋・布物</small>
+
+              <div class="right-stack-zone" data-zone="R1">
+                <div class="zone-label"><strong>R1</strong><span>右奥 積み箱</span></div>
+                <span class="stack-box olive">カーキ箱</span>
+                <span class="stack-box black">黒ケース</span>
+                <span class="stack-box gray">グレー箱</span>
+                <span class="item-shape bag green stack-top">上の緑バッグ</span>
               </div>
-              <div class="map-zone zone-l3">
-                <strong>L3</strong>
-                <span>左ラック下段</span>
-                <small>低いバッグ類</small>
+
+              <div class="right-bag-zone" data-zone="R2">
+                <div class="zone-label"><strong>R2</strong><span>右手前 大型袋</span></div>
+                <span class="item-shape big-bag tan">ベージュ大型袋</span>
+                <span class="stack-box clear">透明ケース</span>
               </div>
-              <div class="map-zone zone-b1">
-                <strong>B1</strong>
-                <span>奥壁まわり</span>
-                <small>縦長ケース・細物</small>
-              </div>
-              <div class="map-zone zone-r1">
-                <strong>R1</strong>
-                <span>右奥 積み箱</span>
-                <small>重なった箱</small>
-              </div>
-              <div class="map-zone zone-r2">
-                <strong>R2</strong>
-                <span>右手前 大型袋</span>
-                <small>大きい袋・透明箱</small>
-              </div>
-              <div class="map-zone zone-f1">
-                <strong>F1</strong>
-                <span>床・通路</span>
-                <small>一時置き・大型ケース</small>
+
+              <div class="floor-zone" data-zone="F1">
+                <div class="zone-label"><strong>F1</strong><span>床・通路</span></div>
+                <span class="item-shape floor-case black">黒い大きいケース</span>
+                <span class="item-shape soft olive">一時置き袋</span>
               </div>
             </div>
           </section>
