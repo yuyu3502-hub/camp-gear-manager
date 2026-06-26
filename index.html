@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>お父さんのキャンプ用品管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260625-3" />
+    <link rel="stylesheet" href="./styles.css?v=20260625-4" />
   </head>
   <body>
     <div class="app-shell">
@@ -111,18 +111,25 @@
             <div class="section-head compact-head">
               <div>
                 <p class="eyebrow">この部屋の見取り図</p>
-                <h2 id="roomMapTitle">上から見て、タップで棚の中を見る</h2>
-                <p>まず上から見た場所を選びます。左ラックや積み箱は、選ぶと横から見た詳細に切り替わります。</p>
+                <h2 id="roomMapTitle">部屋全体を上から見る</h2>
+                <p>下が入口、上が奥壁です。場所をタップすると、棚や積み箱を横から見た詳細に切り替わります。</p>
               </div>
             </div>
 
             <div class="room-planner" aria-label="トランクルームの上面図と詳細図">
               <div class="top-map" aria-label="上から見たトランクルーム">
                 <div class="top-map-label entry-label">入口</div>
-                <div class="top-map-label back-label">奥</div>
+                <div class="top-map-label back-label">奥壁</div>
+                <div class="wall-label left-wall-label">左壁</div>
+                <div class="wall-label right-wall-label">右壁</div>
+                <div class="aisle-label">人が立つ通路</div>
                 <button class="top-zone top-shelf active" type="button" data-room-zone="shelf">
                   <strong>左ラック</strong>
                   <span>L0〜L3</span>
+                </button>
+                <button class="top-zone top-shelf-back" type="button" data-room-zone="shelf-back">
+                  <strong>ラック奥</strong>
+                  <span>LB</span>
                 </button>
                 <button class="top-zone top-back" type="button" data-room-zone="back">
                   <strong>奥壁</strong>
@@ -181,6 +188,23 @@
                     <button class="secondary-button" type="button" data-create-location="L1 左ラック2段目">L1に用品登録</button>
                     <button class="secondary-button" type="button" data-create-location="L2 左ラック3段目">L2に用品登録</button>
                     <button class="secondary-button" type="button" data-create-location="L3 左ラック下段">L3に用品登録</button>
+                    <button class="secondary-button" type="button" data-create-location="LB 左ラック奥スペース">LBに用品登録</button>
+                  </div>
+                </div>
+
+                <div class="side-scene" data-room-detail="shelf-back">
+                  <div class="side-head">
+                    <h3>LB 左ラック奥スペース</h3>
+                    <p>ラックの奥側にある、棚板の後ろや壁際の空き。見えにくいものを分けて記録します。</p>
+                  </div>
+                  <div class="single-zone-view shelf-back-detail">
+                    <div class="zone-label"><strong>LB</strong><span>左ラック奥スペース</span></div>
+                    <span class="item-shape slim">長い道具</span>
+                    <span class="item-shape box brown">奥の小箱</span>
+                    <span class="item-shape soft dark">見えにくい袋</span>
+                  </div>
+                  <div class="room-actions">
+                    <button class="secondary-button" type="button" data-create-location="LB 左ラック奥スペース">LBに用品登録</button>
                   </div>
                 </div>
 
